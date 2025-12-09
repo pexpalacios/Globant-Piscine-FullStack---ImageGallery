@@ -1,14 +1,17 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-	--color-mainbg-light: #e5e7eb;
+	--color-mainbg-light: #f3f4f6;
 	--color-mainbg-dark: #1f2937;
-	--color-blockbg-light: #94a3b8;
+	--color-blockbg-light: #d1d5db;
 	--color-blockbg-dark: #334155;
-	--color-text-light: #111827;
-	--color-text-dark: #e5e7eb;
-	--color-btnbg-light: #14b8a6;
-	--color-btnkbg-dark: #115e59;
+	--color-blocksec-light: #bac0ca;
+	--color-blocksec-dark: #475569;
+	--color-text-light: #20293b;
+	--color-text-dark: #f3f4f6;
+	--color-btnbg-light: #5bd1c3;
+	--color-btnkbg-dark: #43aba4;
 	--color-btnhover-light: #0d9488;
 	--color-btnkhover-dark: #134e4a;
 }
