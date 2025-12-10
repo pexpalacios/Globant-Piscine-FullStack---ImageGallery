@@ -9,25 +9,28 @@ function App() {
 	const [token, setToken] = useState<string | null>(null);
 	const [user, setUser] = useState<any>(null);
 
-
-  	const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
-	const redirectUri = import.meta.env.VITE_REDIRECT_URI;
   	const galleryRef = useRef(null);
 
   // ---- PETICIÓN A UNSPLASH ----
-  const fetchPhotos = (newSearch = false) => {
-    const apiUrl = query
-      ? `https://api.unsplash.com/search/photos?page=${page}&per_page=40&query=${query}&client_id=${accessKey}`
-      : `https://api.unsplash.com/photos?page=${page}&per_page=40&client_id=${accessKey}`;
+	const fetchPhotos = (newSearch = false) => 
+	{
+  		const base = "/api/photos";
+  		const endpoint = query ? `${base}/search?query=${encodeURIComponent(query)}&page=${page}` : `${base}?page=${page}`;
 
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        const results = data.results || data;
-        if (newSearch)
-          setPhotos(results);
-      });
-  };
+  		fetch(endpoint, {credentials: "include"})
+		.then(async res => 
+		{
+    		if (!res.ok) 
+			{
+      			const text = await res.text();
+      			console.error("Backend error:", res.status, text);
+      			return []; // evita crash de JSON.parse
+    		}
+    	return res.json();
+  		})
+  		.then(data => setPhotos(data.results || data))
+  		.catch(err => console.error(err));
+  	};
 
   useEffect(() => {
     fetchPhotos(true);
@@ -44,6 +47,18 @@ function App() {
     fetchPhotos(true);
   };
 
+	// --- LOGIN
+	const login = () => 
+	{
+		window.location.href = "/auth/authorize";
+	};
+
+	const logout = async () => 
+	{
+  		await fetch("/auth/logout", {method: "POST", credentials: "include"});
+  		setUser(null);
+	};
+
   // --- NAVIGATION BUTTONS
   const prevPage = () => {
     if (page > 1)
@@ -57,45 +72,6 @@ function App() {
   useEffect(() => {
 	document.documentElement.classList.toggle("dark", dark);
   }, [dark])
-
-  // --- LOGIN
-const login = () => {
-  const url = new URL("https://unsplash.com/oauth/authorize");
-  url.searchParams.set("client_id", accessKey);
-  url.searchParams.set("redirect_uri", redirectUri);
-  url.searchParams.set("response_type", "code");
-  url.searchParams.set("scope", "public");
-
-  console.log("Unsplash auth URL:", url.toString()); // comprueba en consola
-  window.location.href = url.toString();
-};
-
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get("code");
-
-  if (!code) 
-	return;
-  console.log("Código recibido de Unsplash:", code);
-
-    fetch('http://localhost:3000/exchange', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Token:', data);
-      // Store the token and handle the user data as needed
-    });
-}, []);
-
-
-  const logout = () => {
-  localStorage.removeItem("unsplash_token");
-  setToken(null);
-  setUser(null);
-};
 
 
   return (

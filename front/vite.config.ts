@@ -11,5 +11,21 @@ export default defineConfig({
       },
     }),
 	tailwindcss()
-  ],
+  	],
+	server: {
+		host: true,
+		port: 5173,
+		proxy: {
+			'/api': {
+				target: 'http://backend:3000',
+				changeOrigin: true,
+				secure: false, 
+			},
+			'/auth': {
+				target: 'http://backend:3000',
+				changeOrigin: true,
+				secure: false, 
+			}
+		}
+	}
 })
