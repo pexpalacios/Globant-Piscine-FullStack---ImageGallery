@@ -3,8 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import authRouter from "./auth";
-import photosRouter from "./photos";
+import authRouter from "./auth.ts";
+import photosRouter from "./photos.ts";
 
 console.log("Starting backend...");
 

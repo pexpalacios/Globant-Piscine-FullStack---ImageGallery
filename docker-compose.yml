@@ -3,6 +3,16 @@ networks:
     driver: bridge
 
 services:
+  backend:
+    build: ./back
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./back:/app
+      - /app/node_modules
+    networks:
+      - app-network
+    restart: unless-stopped
   web:
     build: ./front
     ports:
@@ -14,13 +24,3 @@ services:
       - app-network
     depends_on:
       - backend
-  backend:
-    build: ./back
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./back:/app
-      - /app/node_modules
-    networks:
-      - app-network
-    restart: unless-stopped
