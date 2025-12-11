@@ -1,11 +1,13 @@
 //manage oauth routes > /authorize, /exchange, /user, /logout
 import { Router } from "express";
 import axios from "axios";
+import dotenv from "dotenv";
 
 const router = Router();
+dotenv.config();
 
-const CLIENT_ID = process.env.VITE_UNSPLASH_CLIENT_ID!;
-const CLIENT_SECRET = process.env.VITE_UNSPLASH_CLIENT_SECRET!;
+const CLIENT_ID = process.env.VITE_UNSPLASH_ACCESS_KEY!;
+const CLIENT_SECRET = process.env.VITE_UNSPLASH_SECRET_KEY!;
 const REDIRECT_URI = process.env.VITE_REDIRECT_URI!;
 
 //redirect user to auth page
@@ -19,15 +21,16 @@ router.get("/authorize", (req, res) =>
   res.redirect(url.toString());
 });
 
-//exchange code fro token
-router.post("/exchange", async (req, res) => 
+//exchange code from token
+router.get("/callback", async (req, res) => 
 {
-  try 
-  {
-    	const { code } = req.body;
-    	if (!code) 
-			return res.status(400).json({ ok: false, message: "Code is required" });
+	const { code } = req.query;
 
+	if (!code)
+		return (res.status(400).send("Missing code"));
+
+	try 
+	{
     	const payload = {
       		client_id: CLIENT_ID,
       		client_secret: CLIENT_SECRET,
@@ -44,26 +47,20 @@ router.post("/exchange", async (req, res) =>
     	if (!access_token) 
 			return res.status(500).json({ ok: false, message: "No access token from Unsplash" });
 
-    // cookie
-    	res.cookie("access_token", access_token, {
-      		httpOnly: true,
-      		secure: process.env.NODE_ENV === "production",
-    		sameSite: "lax",
-    		maxAge: 30 * 24 * 60 * 60 * 1000 // 30 días
-    	});
+		// res.cookie("unsplash_token", access_token, {
+		// 	httpOnly: true,
+		// 	secure: false, // en dev
+		// 	sameSite: "lax"
+		// });
 
-    // opcional: traer datos del usuario para devolverlos al frontend
-    	const userResp = await axios.get("https://api.unsplash.com/me", {
-      		headers: { Authorization: `Bearer ${access_token}` }
-    	});
-
-    	res.json({ ok: true, user: userResp.data });
+		res.redirect(`${process.env.FRONTEND_URL}/user`);
   	} 
 	catch (err: any) 
 	{
     	console.error("Exchange error:", err?.response?.data ?? err.message ?? err);
     	res.status(500).json({ ok: false, message: "Error exchanging token with Unsplash" });
   	}
+	
 });
 
 //get logged in user

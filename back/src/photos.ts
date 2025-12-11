@@ -16,10 +16,6 @@ router.get("/", async (req, res) =>
     	const page = Number(req.query.page ?? 1);
     	const per_page = Number(req.query.per_page ?? 40);
 
-    	// const access_token = req.cookies.access_token;
-		// console.log("access token: " + access_token);
-		console.log('CLIENT_ID startsWith:', CLIENT_ID?.slice(0,8));
-
     	const response = await axios.get("https://api.unsplash.com/photos", {
      		params: { page, per_page, client_id: CLIENT_ID },
     	});
