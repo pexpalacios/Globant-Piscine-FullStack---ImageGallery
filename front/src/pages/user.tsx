@@ -72,9 +72,8 @@ export default function UserPage() {
   		{photos.map((photo: any) => (
     		<div key={photo.id} className="relative mb-3 break-inside-avoid">
      		 	<img src={photo.urls.small} alt={photo.alt_description || ""}
-        		className="rounded-lg w-full block hover:drop-shadow-[0_0_2em_#fafbffaa] transition-all"/>
-    			<button className="absolute bottom-2 right-2 rounded-full p-2 shadow
-                	hover:scale-110 transition-transform">
+        		className="rounded-lg w-full block "/>
+    			<button className="absolute bottom-2 right-2 rounded-full p-2 hover:drop-shadow-[2_2_2em_#fafbffaa] transition-all text-text-light dark:text-text-dark">
         			<i className="fa-solid fa-star text-text-light text-sm"></i>
      		 	</button>
     		</div>

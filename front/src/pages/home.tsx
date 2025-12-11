@@ -67,7 +67,7 @@ export default function HomePage() {
   		{photos.map((photo: any) => (
     		<div key={photo.id} className="relative mb-3 break-inside-avoid">
      		 	<img src={photo.urls.small} alt={photo.alt_description || ""}
-        		className="rounded-lg w-full block hover:drop-shadow-[0_0_2em_#fafbffaa] transition-all"/>
+        		className="rounded-lg w-full block transition-all"/>
     		</div>
   ))}
 		  				</div>
