@@ -21,7 +21,12 @@ docker-compose down -v
 ```
 
 ### WARNING
-This project needs and access key and a secret key to fetch images and authetificate an user. They ar enot provided becuase they are part of the environment (VITE_UNSPLASH_ACCESS_KEY and VITE_UNSPLASH_SECRET_KEY respectively)
+This project needs and access key and a secret key to fetch images and authetificate an user. They ar enot provided becuase they are part of the environment (VITE_UNSPLASH_ACCESS_KEY and VITE_UNSPLASH_SECRET_KEY respectively). A .env file should looki like this:
+>VITE_UNSPLASH_ACCESS_KEY=XXX
+>VITE_UNSPLASH_SECRET_KEY=XXX
+>VITE_REDIRECT_URI=http://localhost:3000/auth/callback
+>PORT=3000
+>FRONTEND_URL=http://localhost:5173/
 
 ---
 
