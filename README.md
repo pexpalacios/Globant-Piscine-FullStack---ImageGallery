@@ -20,6 +20,8 @@ For cleaning, you need to write in terminal:
 docker-compose down -v
 ```
 
+### WARNING
+This project needs and access key and a secret key to fetch images and authetificate an user. They ar enot provided becuase they are part of the environment (VITE_UNSPLASH_ACCESS_KEY and VITE_UNSPLASH_SECRET_KEY respectively)
 
 ---
 
