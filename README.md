@@ -1,11 +1,28 @@
 # Globant-Piscine-FullStack---ImageGallery
 
-An online gallery using the Unsplash AP to get the images. A free account only llet's me do 50 request for hour, so can't do too much. Works with docker. Technically all the docker needs is submitted and all the other depencies get downloaded, but this is my literal first time doing it so I don't know how that'll go.
+An online gallery using the Unsplash API to get the images. Works on both pc and mobile. Has a dark mode implemented. When logging in with an Unsplash account, it lets you add images to your favourites. You can also remove images from your favourites.
 
-Notes to me:
-- Need to check if it downloads everything at home
-- This is a second repo bc I fucked up the firt one, that's why the first commit is so advanced
-- Need to look into the dark mode (not working)
-- Need to make the main content wrap well and that the sde bar goes from column to row in phone view
-- Still need to do the OAuth implementation and favourites
-- maybe, just maybe, look into how to put enough pics to fill the page
+
+---
+
+
+### Set up
+This project uses docker and so it needs to be launched with:
+```
+docker-compose up --build
+```
+in the terminal of the project. After building, you need to go to your prefered browser and get into:
+```
+localhost:8080
+```
+For cleaning, you need to write in terminal:
+```
+docker-compose down -v
+```
+
+
+---
+
+pc view | mobile view | search + dark mode
+:-------:|:----------:|:------------------|
+![pc screenshot with light mode on](./front/src/assets/pcview.png) | ![mobile screenshot with light mode on](./front/src/assets/mobileview.png) | ![pc screenshot showing the search function by searching beach with dark mode on](./front/src/assets/search.png)

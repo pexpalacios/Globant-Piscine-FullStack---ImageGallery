@@ -3,45 +3,45 @@ import { useNavigate } from 'react-router-dom'
 
 export function useFunctionalities() {
 	const [photos, setPhotos] = useState([]);
-  	const [query, setQuery] = useState("");
-  	const [page, setPage] = useState(1);
-  	const [dark, setDark] = useState(false);
+	const [query, setQuery] = useState("");
+	const [page, setPage] = useState(1);
+	const [dark, setDark] = useState(false);
 	const [token, setToken] = useState<string | null>(null);
 	const [user, setUser] = useState<any>(null);
 
-  	const galleryRef = useRef(null);
+	const galleryRef = useRef(null);
 	const navigate = useNavigate();
 
-  // ---- PETICIÓN A UNSPLASH ----
+	// ---- PETICIÓN A UNSPLASH ----
 	const fetchPhotos = (newSearch = false) => 
 	{
-  		const base = "/api/photos";
-  		const endpoint = query ? `${base}/search?query=${encodeURIComponent(query)}&page=${page}` : `${base}?page=${page}`;
+		const base = "/api/photos";
+		const endpoint = query ? `${base}/search?query=${encodeURIComponent(query)}&page=${page}` : `${base}?page=${page}`;
 
-  		fetch(endpoint, {credentials: "include"})
+		fetch(endpoint, {credentials: "include"})
 		.then(async res => 
 		{
-    		if (!res.ok) 
+			if (!res.ok) 
 			{
-      			const text = await res.text();
-      			console.error("Backend error:", res.status, text);
-      			return [];
-    		}
-    	return res.json();
-  		})
-  		.then(data => setPhotos(data.results || data))
-  		.catch(err => console.error(err));
-  	};
+				const text = await res.text();
+				console.error("Backend error:", res.status, text);
+				return [];
+			}
+			return res.json();
+		})
+		.then(data => setPhotos(data.results || data))
+		.catch(err => console.error(err));
+		};
 
 	useEffect(() => {
-    	fetchPhotos(true);
+			fetchPhotos(true);
 	}, []);
 
 	useEffect(() => {
 		fetchPhotos(true);
 	}, [page]);
 
-  // --- SEARCH FUNCTION
+	// --- SEARCH FUNCTION
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
 		setPage(1);
@@ -54,13 +54,12 @@ export function useFunctionalities() {
 		window.location.href = "/auth/authorize";
 	};
 
-	const logout = async () => 
+	const logout = () => 
 	{
-  		await fetch("/logout", {method: "POST", credentials: "include"});
-  		setUser(null);
+		window.location.href = "/auth/logout";
 	};
 
-  // --- NAVIGATION BUTTONS
+	// --- NAVIGATION BUTTONS
 	const prevPage = () => {
 		if (page > 1)
 			setPage((prev) => prev - 1);
@@ -68,35 +67,41 @@ export function useFunctionalities() {
 	const nextPage = () => {
 		setPage((prev) => prev + 1);
 	};
+
 	const favPage = () => {
 		navigate("/user/favourites");
 	};
 
-	  // --- DARK MODE
+	const goBack = () => {
+		navigate("/user");
+	}
+
+	// --- DARK MODE
 	useEffect(() => {
 		document.documentElement.classList.toggle("dark", dark);
 	}, [dark])
 
-	  return {
-    photos,
-    setPhotos,
-    query,
-    setQuery,
-    page,
-    setPage,
-    dark,
-    setDark,
-    token,
-    setToken,
-    user,
-    setUser,
-    galleryRef,
-    fetchPhotos,
-    handleSearch,
-    login,
-    logout,
-    prevPage,
-    nextPage,
-    favPage,
-  };
+	return {
+		photos,
+		setPhotos,
+		query,
+		setQuery,
+		page,
+		setPage,
+		dark,
+		setDark,
+		token,
+		setToken,
+		user,
+		setUser,
+		galleryRef,
+		fetchPhotos,
+		handleSearch,
+		login,
+		logout,
+		prevPage,
+		nextPage,
+		favPage,
+	goBack
+	};
 }

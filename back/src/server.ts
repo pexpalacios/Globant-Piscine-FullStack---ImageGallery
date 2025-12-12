@@ -2,13 +2,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import authRouter from "./auth.ts";
 import photosRouter from "./photos.ts";
 
 console.log("Starting backend...");
 
-//get environment
+//Get environment
 dotenv.config();
 
 const app = express();
@@ -19,9 +18,8 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(cookieParser());
 
-// routes
+//Routes
 app.use("/auth", authRouter);
 app.use("/api/photos", photosRouter);
 
