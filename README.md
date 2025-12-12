@@ -13,7 +13,7 @@ docker-compose up --build
 ```
 in the terminal of the project. After building, you need to go to your prefered browser and get into:
 ```
-localhost:8080
+localhost:5713
 ```
 For cleaning, you need to write in terminal:
 ```
